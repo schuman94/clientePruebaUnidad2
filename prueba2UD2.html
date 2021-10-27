@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba 2 UD2</title>
+</head>
+<body>
+
+  <h1>Actividad de evaluación: Estructuras de control</h1>
+
+  <ol>
+    <li>Listar usuarios</li>
+    <li>Calcular edad media</li>
+    <li>Contar usuari@s casad@s</li>
+    <li>Calcular edad media de usuari@s casad@s y solter@s</li>
+  </ol>
+  <select name="opcion" id="opcion">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+  </select>
+
+  <!--El formato del input es cadena, es decir, sus "values" son de tipo string-->
+  <button onclick="calcular()">Calcular</button>
+  <p id="parrafo"></p>
+
+    <script>
+
+        let usuarios = [
+
+            { nombre: "Juan",
+              apellidos: "Pérez Pérez",
+              edad: 20,
+              casado: true
+            },
+
+            { nombre: "Laura",
+              apellidos: "López López",
+              edad: 21,
+              casado: false
+            },
+
+            { nombre: "Ana",
+              apellidos: "Sánchez Sánchez",
+              edad: 24,
+              casado: true
+            },
+
+            { nombre: "Miguel",
+              apellidos: "Fernández Fernández",
+              edad: 26,
+              casado: false
+            },
+
+            { nombre: "Lola",
+              apellidos: "García García",
+              edad: 20,
+              casado: true
+            },
+
+            { nombre: "Francisco",
+              apellidos: "Jiménez Jiménez",
+              edad: 15,
+              casado: false
+            }
+
+        ];
+     
+        function calcular() {
+          switch (document.getElementById("opcion").value) {
+            /*
+            Como los values de las opciones son de tipo string, utilizamos string para los "case".
+            Otra opción era transformar con parseInt() los values,
+            de forma que dentro de los case utilicemos un entero, pero con la primera opción funciona perfectamente.
+            */
+            case ("1"):
+              console.log("Hemos entrado en la opcion 1");
+              document.getElementById("parrafo").innerHTML = "";
+              listarUsuarios();
+              break;
+            case ("2"):
+              console.log("Hemos entrado en la opcion 2");
+              document.getElementById("parrafo").innerHTML = "";
+              edadMedia();
+              break;
+            case ("3"):
+              console.log("Hemos entrado en la opcion 3");
+              document.getElementById("parrafo").innerHTML = "";
+              casados();
+              break;
+            case ("4"):
+              console.log("Hemos entrado en la opcion 4");
+              document.getElementById("parrafo").innerHTML = "";
+              mediaCasadosSolteros();
+              break;
+            default:
+              //Esto se podría considerar otra validación, aunque de forma normal no se puede introducir un valor distinto
+              console.log("No se ha introducido una opcion correcta");
+              document.getElementById("parrafo").innerHTML = "No se ha introducido una opción correcta";
+              break;
+          }
+        }
+
+        function listarUsuarios() {
+          let nombre;
+          let apellidos;
+          let edad;
+          let casado;
+          for (let i in usuarios) {
+            nombre = usuarios[i].nombre;
+            apellidos = usuarios[i].apellidos;
+            edad = usuarios[i].edad;
+            casado = usuarios[i].casado;
+            document.getElementById("parrafo").innerHTML +=
+              `Los datos del usuario ${parseInt(i)+1} son: <br>
+              <ul>
+                <li>nombre: ${nombre}</li>
+                <li>apellidos: ${apellidos}</li>
+                <li>edad: ${edad}</li>
+                <li>casado: ${casado}</li>
+              </ul>
+              <br>`
+          }
+        }
+
+        function edadMedia() {
+          let contadorEdad = 0;
+          numUsuarios = usuarios.length;
+          for (let u of usuarios) {
+            contadorEdad += u.edad;
+            //Esto es un seguimiento del contador de edades
+            console.log(contadorEdad);
+          }
+          let media = contadorEdad / numUsuarios;
+          document.getElementById("parrafo").innerHTML = "La edad media de todos los usuarios es " + media.toFixed(1);
+        }
+
+        function casados() {
+          let casados = 0;
+          for (let u of usuarios) {
+            if (u.casado) {
+              //Esto es un seguimiento de los usuarios que están casados
+              console.log(u.nombre);
+              casados++;
+            }
+          }
+          document.getElementById("parrafo").innerHTML = "El número de usuari@s casad@s es " + casados;
+        }
+
+        function mediaCasadosSolteros() {
+          let casados = 0;
+          let solteros = 0;
+          let contadorEdadCasados = 0;
+          let contadorEdadSolteros = 0;
+          for (let u of usuarios) {
+            if (u.casado) {
+              casados++;
+              contadorEdadCasados += u.edad;
+            } else {
+              solteros++;
+              contadorEdadSolteros += u.edad;
+            }
+            //Comprobacion del contador de solteros y la acumulacion de sus edades
+            console.log(solteros);
+            console.log(contadorEdadSolteros);
+          }
+          let mediaCasados = contadorEdadCasados / casados;
+          let mediaSolteros = contadorEdadSolteros / solteros;
+          document.getElementById("parrafo").innerHTML = `La edad media de usuari@s casad@s es ${mediaCasados.toFixed(1)} <br>
+          La edad media de usuari@s solter@s es ${mediaSolteros.toFixed(1)}`
+        }
+    </script>
+</body>
+</html>
